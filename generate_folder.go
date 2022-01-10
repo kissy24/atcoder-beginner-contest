@@ -14,18 +14,26 @@ func Input() string {
 }
 
 // Parses the command line arguments
-func ParseArgs() (string, string) {
-	optionPy := flag.String("py", ".py", "generate python file")
-	optionGo := flag.String("go", ".go", "generate golang file")
+func ParseArgs() string {
+	optLang := flag.String("lang", "py", "The language extension(ex. py, go, etc.)")
 	flag.Parse()
-	return *optionPy, *optionGo
+	return "." + *optLang
 }
 
-func GenerateFolder(stem string, extension string) {
-	folderName := stem + extension
+func GenerateFolder(num string, extension string) {
+	folderName := "ABC_" + num
+	if err := os.Mkdir(folderName, 0777); err != nil {
+		fmt.Println(err)
+	}
 	os.Create(folderName)
+	var stems [4]string = [4]string{"a", "b", "c", "d"}
+	for i := 0; i < 4; i++ {
+		os.Create(folderName + "/" + stems[i] + extension)
+	}
 }
 
 func main() {
-	fmt.Println(ParseArgs())
+	folderName := Input()
+	extension := ParseArgs()
+	GenerateFolder(folderName, extension)
 }
