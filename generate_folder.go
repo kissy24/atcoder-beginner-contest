@@ -20,15 +20,16 @@ func ParseArgs() string {
 	return "." + *optLang
 }
 
+// Generates a folder and files with the given name and extension
 func GenerateFolder(num string, extension string) {
 	folderName := "ABC_" + num
 	if err := os.Mkdir(folderName, 0777); err != nil {
 		fmt.Println(err)
 	}
 	os.Create(folderName)
-	var stems [4]string = [4]string{"a", "b", "c", "d"}
-	for i := 0; i < 4; i++ {
-		os.Create(folderName + "/" + stems[i] + extension)
+	stems := [4]string{"a", "b", "c", "d"}
+	for _, stem := range stems {
+		os.Create(folderName + "/" + stem + extension)
 	}
 }
 
@@ -36,4 +37,5 @@ func main() {
 	folderName := Input()
 	extension := ParseArgs()
 	GenerateFolder(folderName, extension)
+
 }
